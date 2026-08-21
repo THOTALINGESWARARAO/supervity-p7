@@ -1,0 +1,46 @@
+ACME TECHNOLOGIES
+NEW EMPLOYEE IT SETUP GUIDE
+
+Document Type: IT Onboarding Guide
+Version: 1.0
+Effective Date: January 1, 2026
+
+1. COMPANY LAPTOP
+
+New employees receive a company-managed laptop from the IT department.
+
+Employees should sign in using their company credentials during the initial setup.
+
+2. COMPANY EMAIL
+
+A company email account is created before the employee's start date.
+
+The employee should verify access to email during the first day of onboarding.
+
+3. MULTI-FACTOR AUTHENTICATION
+
+Multi-factor authentication (MFA) must be enabled on the employee's company account.
+
+Employees should complete MFA setup before accessing internal company applications.
+
+4. VPN
+
+Employees working remotely must use the company VPN when accessing systems that require internal network access.
+
+The IT department provides VPN configuration instructions during onboarding.
+
+5. SOFTWARE
+
+Standard employee laptops include the applications required for email, communication, documentation, and approved development work.
+
+Employees must not install unapproved software on company-managed devices.
+
+6. IT SUPPORT
+
+For laptop, account, VPN, or software issues, employees should contact the IT help desk.
+
+7. LOST OR STOLEN DEVICES
+
+A lost or stolen company device must be reported to the IT help desk immediately.
+
+Employees should not attempt to recover or remotely modify a lost device without following IT instructions.

@@ -1,0 +1,46 @@
+ACME TECHNOLOGIES
+INFORMATION SECURITY POLICY
+
+Document Type: Security Policy
+Version: 1.0
+Effective Date: January 1, 2026
+
+1. SECURITY TRAINING
+
+All new employees must complete the mandatory security awareness training within 7 calendar days of their joining date.
+
+2. PASSWORDS
+
+Employees must use strong, unique passwords for company accounts.
+
+Passwords must not be shared with colleagues or other individuals.
+
+3. MULTI-FACTOR AUTHENTICATION
+
+MFA is required for company accounts and supported internal applications.
+
+Employees must not disable MFA unless specifically instructed by authorized IT personnel.
+
+4. PHISHING
+
+Employees should not click suspicious links, open unexpected attachments, or provide company credentials in response to suspicious messages.
+
+Potential phishing attempts should be reported to the IT or security team.
+
+5. COMPANY DEVICES
+
+Company-managed devices must be protected from unauthorized access.
+
+Employees should lock their device when leaving it unattended.
+
+6. SECURITY INCIDENTS
+
+Suspected security incidents must be reported to the security or IT team as soon as possible.
+
+7. DATA PROTECTION
+
+Employees must handle company and customer information according to applicable company policies and access controls.
+
+8. POLICY LIMITATION
+
+This document describes general employee information-security requirements. It does not provide detailed procedures for every security incident or system.
