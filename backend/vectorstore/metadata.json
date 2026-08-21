@@ -1,0 +1,77 @@
+[
+  {
+    "source": "benefits_policy.txt",
+    "chunk_index": 0,
+    "text": "ACME TECHNOLOGIES EMPLOYEE BENEFITS POLICY Document Type: HR Policy Version: 1.0 Effective Date: January 1, 2026 1. HEALTH INSURANCE ELIGIBILITY All full-time employees are eligible for the company health insurance plan from their date of joining. 2. HEALTH INSURANCE ENROLLMENT New employees must enroll in the health insurance plan within 30 calendar days of their joining date. 3. PREMIUM CONTRIBUTION Acme Technologies covers 80% of the employee's health insurance premium. The employee is"
+  },
+  {
+    "source": "benefits_policy.txt",
+    "chunk_index": 1,
+    "text": "Acme Technologies covers 80% of the employee's health insurance premium. The employee is responsible for the remaining 20%. 4. DEPENDENT COVERAGE Employees may add eligible dependents to their health insurance plan during the enrollment process. Additional dependent premiums are paid by the employee unless otherwise specified by HR. 5. DENTAL AND VISION BENEFITS Full-time employees are eligible for basic dental and vision coverage after completing the benefits enrollment process. 6. BENEFITS"
+  },
+  {
+    "source": "benefits_policy.txt",
+    "chunk_index": 2,
+    "text": "for basic dental and vision coverage after completing the benefits enrollment process. 6. BENEFITS SUPPORT Employees who have questions about benefits should contact the HR team through the internal HR help desk. 7. IMPORTANT LIMITATION This document describes the standard employee benefits policy. It does not contain information about specialized international benefits, executive benefits, or temporary contractor benefits."
+  },
+  {
+    "source": "employee_handbook.txt",
+    "chunk_index": 0,
+    "text": "ACME TECHNOLOGIES EMPLOYEE HANDBOOK Document Type: Employee Handbook Version: 1.0 Effective Date: January 1, 2026 1. WORKING HOURS Standard working hours are Monday through Friday, 9:00 AM to 6:00 PM local time. Employees normally receive a one-hour lunch break. 2. REMOTE WORK Eligible employees may work remotely according to their team's approved work arrangement. Remote work eligibility does not automatically authorize working from another country. International remote work requires separate"
+  },
+  {
+    "source": "employee_handbook.txt",
+    "chunk_index": 1,
+    "text": "automatically authorize working from another country. International remote work requires separate approval from HR and the employee's manager. 3. PAID TIME OFF Full-time employees receive paid time off according to the company's applicable leave policy. Employees should request planned leave through the company's designated leave-management process. 4. SICK LEAVE Employees who are unable to work because of illness should notify their manager as soon as reasonably possible. 5. EXPENSES Business"
+  },
+  {
+    "source": "employee_handbook.txt",
+    "chunk_index": 2,
+    "text": "because of illness should notify their manager as soon as reasonably possible. 5. EXPENSES Business expenses must be submitted through the company's expense process with appropriate receipts or supporting documentation. 6. CODE OF CONDUCT Employees are expected to communicate professionally, respect colleagues, protect confidential company information, and comply with company policies. 7. CONFIDENTIAL INFORMATION Employees must not disclose confidential company information to unauthorized"
+  },
+  {
+    "source": "employee_handbook.txt",
+    "chunk_index": 3,
+    "text": "INFORMATION Employees must not disclose confidential company information to unauthorized individuals. 8. HR QUESTIONS Employees should contact HR when they need clarification about employment policies, benefits, leave, or workplace matters."
+  },
+  {
+    "source": "it_setup_guide.txt",
+    "chunk_index": 0,
+    "text": "ACME TECHNOLOGIES NEW EMPLOYEE IT SETUP GUIDE Document Type: IT Onboarding Guide Version: 1.0 Effective Date: January 1, 2026 1. COMPANY LAPTOP New employees receive a company-managed laptop from the IT department. Employees should sign in using their company credentials during the initial setup. 2. COMPANY EMAIL A company email account is created before the employee's start date. The employee should verify access to email during the first day of onboarding. 3. MULTI-FACTOR AUTHENTICATION"
+  },
+  {
+    "source": "it_setup_guide.txt",
+    "chunk_index": 1,
+    "text": "should verify access to email during the first day of onboarding. 3. MULTI-FACTOR AUTHENTICATION Multi-factor authentication (MFA) must be enabled on the employee's company account. Employees should complete MFA setup before accessing internal company applications. 4. VPN Employees working remotely must use the company VPN when accessing systems that require internal network access. The IT department provides VPN configuration instructions during onboarding. 5. SOFTWARE Standard employee laptops"
+  },
+  {
+    "source": "it_setup_guide.txt",
+    "chunk_index": 2,
+    "text": "provides VPN configuration instructions during onboarding. 5. SOFTWARE Standard employee laptops include the applications required for email, communication, documentation, and approved development work. Employees must not install unapproved software on company-managed devices. 6. IT SUPPORT For laptop, account, VPN, or software issues, employees should contact the IT help desk. 7. LOST OR STOLEN DEVICES A lost or stolen company device must be reported to the IT help desk immediately. Employees"
+  },
+  {
+    "source": "it_setup_guide.txt",
+    "chunk_index": 3,
+    "text": "DEVICES A lost or stolen company device must be reported to the IT help desk immediately. Employees should not attempt to recover or remotely modify a lost device without following IT instructions."
+  },
+  {
+    "source": "security_policy.txt",
+    "chunk_index": 0,
+    "text": "ACME TECHNOLOGIES INFORMATION SECURITY POLICY Document Type: Security Policy Version: 1.0 Effective Date: January 1, 2026 1. SECURITY TRAINING All new employees must complete the mandatory security awareness training within 7 calendar days of their joining date. 2. PASSWORDS Employees must use strong, unique passwords for company accounts. Passwords must not be shared with colleagues or other individuals. 3. MULTI-FACTOR AUTHENTICATION MFA is required for company accounts and supported internal"
+  },
+  {
+    "source": "security_policy.txt",
+    "chunk_index": 1,
+    "text": "3. MULTI-FACTOR AUTHENTICATION MFA is required for company accounts and supported internal applications. Employees must not disable MFA unless specifically instructed by authorized IT personnel. 4. PHISHING Employees should not click suspicious links, open unexpected attachments, or provide company credentials in response to suspicious messages. Potential phishing attempts should be reported to the IT or security team. 5. COMPANY DEVICES Company-managed devices must be protected from"
+  },
+  {
+    "source": "security_policy.txt",
+    "chunk_index": 2,
+    "text": "to the IT or security team. 5. COMPANY DEVICES Company-managed devices must be protected from unauthorized access. Employees should lock their device when leaving it unattended. 6. SECURITY INCIDENTS Suspected security incidents must be reported to the security or IT team as soon as possible. 7. DATA PROTECTION Employees must handle company and customer information according to applicable company policies and access controls. 8. POLICY LIMITATION This document describes general employee"
+  },
+  {
+    "source": "security_policy.txt",
+    "chunk_index": 3,
+    "text": "company policies and access controls. 8. POLICY LIMITATION This document describes general employee information-security requirements. It does not provide detailed procedures for every security incident or system."
+  }
+]
