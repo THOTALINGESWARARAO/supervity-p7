@@ -30,3 +30,5 @@ Thumbs.db
 
 # Logs
 *.log
+# Local runtime database
+backend/data/tasks.db

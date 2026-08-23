@@ -1,4 +1,4 @@
-from retrieve import search
+from ingestion.retrieve import search
 
 
 queries = [

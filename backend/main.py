@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
 from backend.qa.answer import answer_question
+from backend.tasks.routes import router as task_router
 
 
 app = FastAPI(
@@ -9,6 +10,8 @@ app = FastAPI(
     description="RAG-powered HR question answering API",
     version="1.0.0",
 )
+
+app.include_router(task_router)
 
 
 class QuestionRequest(BaseModel):
