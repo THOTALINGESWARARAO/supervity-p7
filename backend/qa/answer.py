@@ -67,8 +67,18 @@ Content:
         self,
         question: str,
         context: str,
+        conversation_context: str = "",
     ) -> str:
         """Build a grounded HR question-answering prompt."""
+
+        conversation_section = ""
+
+        if conversation_context.strip():
+            conversation_section = f"""
+
+RECENT CONVERSATION:
+{conversation_context}
+""".strip()
 
         return f"""
 You are an HR assistant for the company.
@@ -76,19 +86,26 @@ You are an HR assistant for the company.
 Answer the user's question using ONLY the HR knowledge base
 context provided below.
 
+The recent conversation is provided only to understand references
+such as "that", "it", "they", or follow-up questions. Do not treat
+conversation history as authoritative HR policy.
+
 Rules:
-1. Use only the provided HR context.
-2. Do not use outside knowledge.
-3. Do not invent, assume, or infer HR policies that are not
-   explicitly supported by the context.
-4. If the context does not contain enough information to answer
+1. Use only the provided HR context for HR facts.
+2. Use recent conversation only to understand conversational context.
+3. Do not use outside knowledge.
+4. Do not invent, assume, or infer HR policies that are not
+   explicitly supported by the HR context.
+5. If the HR context does not contain enough information to answer
    the question, say:
    "I could not find this information in the HR knowledge base."
-5. Give a concise, clear, and professional answer.
-6. When useful, mention the relevant HR document.
+6. Give a concise, clear, and professional answer.
+7. When useful, mention the relevant HR document.
 
 HR KNOWLEDGE BASE CONTEXT:
 {context}
+
+{conversation_section}
 
 USER QUESTION:
 {question}
@@ -98,12 +115,14 @@ USER QUESTION:
         self,
         question: str,
         context: str,
+        conversation_context: str = "",
     ) -> str:
         """Generate an answer using Groq."""
 
         prompt = self.build_prompt(
             question=question,
             context=context,
+            conversation_context=conversation_context,
         )
 
         response = self.client.chat.completions.create(
@@ -126,7 +145,11 @@ USER QUESTION:
 
         return response.choices[0].message.content.strip()
 
-    def answer(self, question: str) -> dict:
+    def answer(
+        self,
+        question: str,
+        conversation_context: str = "",
+    ) -> dict:
         """Retrieve context and generate a grounded HR answer."""
 
         if not question.strip():
@@ -148,6 +171,7 @@ USER QUESTION:
         answer = self.generate_answer(
             question=question,
             context=context,
+            conversation_context=conversation_context,
         )
 
         sources = [
@@ -168,7 +192,13 @@ USER QUESTION:
 qa = HRQuestionAnswering()
 
 
-def answer_question(question: str) -> dict:
+def answer_question(
+    question: str,
+    conversation_context: str = "",
+) -> dict:
     """Convenience function for answering an HR question."""
 
-    return qa.answer(question)
+    return qa.answer(
+        question=question,
+        conversation_context=conversation_context,
+    )
