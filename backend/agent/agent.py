@@ -12,10 +12,9 @@ from backend.agent.tools import (
 )
 
 
-load_dotenv()
+load_dotenv(override=True)
 
-
-GROQ_MODEL = "groq/compound-mini"
+GROQ_MODEL = "openai/gpt-oss-20b"
 
 
 class HRAgent:
@@ -195,6 +194,24 @@ USER REQUEST:
                 "I can help with HR knowledge-base questions "
                 "and task management."
             )
+
+        # Listing tasks is deterministic and does not require
+        # another LLM call. This also avoids unnecessary Groq
+        # token consumption and rate-limit failures.
+        if action == "list_tasks":
+            if not result:
+                return "You have no tasks."
+
+            lines = ["Your tasks:"]
+
+            for task in result:
+                lines.append(
+                    f"- {task.get('title', 'Untitled')} "
+                    f"(status: {task.get('status', 'unknown')}, "
+                    f"priority: {task.get('priority', 'unknown')})"
+                )
+
+            return "\n".join(lines)
 
         response = self.client.chat.completions.create(
             model=GROQ_MODEL,

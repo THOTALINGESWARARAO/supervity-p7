@@ -5,11 +5,9 @@ from groq import Groq
 
 from backend.ingestion.retrieve import search
 
+load_dotenv(override=True)
 
-load_dotenv()
-
-
-GROQ_MODEL = "groq/compound-mini"
+GROQ_MODEL = "openai/gpt-oss-20b"
 
 DEFAULT_TOP_K = 3
 DEFAULT_SCORE_THRESHOLD = 0.30

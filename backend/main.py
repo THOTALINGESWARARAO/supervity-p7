@@ -5,12 +5,21 @@ from backend.agent.routes import router as agent_router
 from backend.memory.service import MemoryService
 from backend.qa.answer import answer_question
 from backend.tasks.routes import router as task_router
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI(
     title="HR Knowledge Assistant",
     description="RAG-powered HR question answering API",
     version="1.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(task_router)
