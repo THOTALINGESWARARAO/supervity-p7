@@ -1,360 +1,277 @@
-HR Knowledge Assistant
+# P7 — HR Knowledge Assistant
 
-A full-stack, RAG-powered HR Knowledge Assistant combining semantic
-document retrieval, LLM-based question answering, agent capabilities,
-conversation memory, task management, and a React frontend.
+> A full-stack, RAG-powered HR Knowledge Assistant built with FastAPI, React, FAISS, Sentence Transformers, and Groq. The system combines document-grounded question answering, conversational memory, an HR agent, task management, and a production-oriented REST API.
 
-Table of Contents
+---
 
-Project Overview
+## Overview
 
-Objectives
+P7 is an AI-powered internal HR assistant designed to answer organization-specific questions using a controlled HR knowledge base.
 
-Key Features
+Instead of relying exclusively on an LLM's pretrained knowledge, the application uses **Retrieval-Augmented Generation (RAG)** to retrieve relevant information from HR documents and provide that context to the language model before generating an answer.
 
-System Architecture
+The application also provides:
 
-Request Flow
+- Semantic document retrieval
+- RAG-based HR question answering
+- Conversation memory
+- Natural-language HR agent
+- Task management
+- REST APIs
+- React web interface
+- Automated backend tests
+- Production frontend builds
+- Environment-based configuration
 
-Technology Stack
+The application has been fully validated locally. Production deployment was attempted on Render, but the selected 512 MB runtime environment was insufficient for the current ML dependency/model stack.
 
-Project Structure
+---
 
-HR Knowledge Base
+## Features
 
-RAG Pipeline
+### AI & RAG
 
-Agent Layer
+- HR document ingestion
+- Text chunking
+- Sentence Transformer embeddings
+- FAISS vector similarity search
+- Retrieval-Augmented Generation
+- Groq-powered LLM responses
+- Context-grounded HR answers
 
-Conversation Memory
+### Conversational AI
 
-Task Management
+- Conversation identifiers
+- Conversation history
+- Context-aware follow-up questions
+- Persistent memory abstraction through repository/service layers
 
-FastAPI API
+### Agent
 
+- Natural-language agent endpoint
+- Application-level tool integration
+- Separation between agent logic and HTTP routes
+
+### Task Management
+
+- Create tasks
+- List tasks
+- Retrieve individual tasks
+- Update tasks
+- Complete tasks
+- Delete tasks
+- Task priorities
+- Task statuses
+- Optional due dates
+
+### Web Application
+
+- React frontend
+- Vite development/build system
+- Backend API integration
+- Environment-based API URL
+- Production build support
+
+### Engineering
+
+- FastAPI REST API
+- Pydantic validation
+- Automated pytest suite
+- Modular backend architecture
+- Environment variable configuration
+- Git-based development workflow
+
+---
+
+# Architecture
+
+```text
+                         ┌───────────────────────┐
+                         │     React Frontend    │
+                         │       React + Vite    │
+                         └───────────┬───────────┘
+                                     │
+                                  HTTP/JSON
+                                     │
+                                     ▼
+                         ┌───────────────────────┐
+                         │      FastAPI API      │
+                         │                       │
+                         │ /ask                  │
+                         │ /agent                │
+                         │ /tasks                │
+                         │ /health               │
+                         └───────────┬───────────┘
+                                     │
+                 ┌───────────────────┼───────────────────┐
+                 │                   │                   │
+                 ▼                   ▼                   ▼
+          ┌─────────────┐     ┌─────────────┐    ┌─────────────┐
+          │     RAG     │     │    Agent    │    │    Tasks    │
+          │    / QA     │     │   Service   │    │   Service   │
+          └──────┬──────┘     └──────┬──────┘    └──────┬──────┘
+                 │                   │                  │
+                 ▼                   ▼                  ▼
+          ┌─────────────┐     ┌─────────────┐    ┌─────────────┐
+          │   FAISS     │     │ Agent Tools │    │ Repository  │
+          │ Vector Store│     │             │    │    Layer    │
+          └──────┬──────┘     └─────────────┘    └─────────────┘
+                 │
+                 ▼
+          ┌─────────────┐
+          │ Embedding   │
+          │    Model    │
+          └──────┬──────┘
+                 │
+                 ▼
+          ┌─────────────┐
+          │ HR Document │
+          │  Knowledge  │
+          │    Base     │
+          └──────┬──────┘
+                 │
+                 ▼
+          ┌─────────────┐
+          │  Groq LLM   │
+          └─────────────┘
+````
+
+---
+
+# Request Flow
+
+## HR Question
+
+```text
+User
+  │
+  ▼
 React Frontend
-
-Environment Configuration
-
-Local Installation
-
-Running the Application
-
-API Examples
-
-Testing and Validation
-
-Task 10 Full Integration
-
-Production Build
-
-Deployment Status
-
-Deployment Considerations
-
-Security
-
-Troubleshooting
-
-Development Workflow
-
-Project Status
-
-Repository
-
-Project Overview
-
-P7 is a full-stack AI application designed to provide an internal HR
-knowledge assistant.
-
-Instead of relying only on an LLM's general knowledge, the system
-retrieves relevant information from a controlled HR document collection
-and uses that context to generate answers.
-
-The project also extends beyond basic RAG by integrating:
-
-An HR-focused agent
-
-Conversation memory
-
-Task management
-
-REST APIs
-
-A React user interface
-
-Automated testing
-
-End-to-end local integration validation
-
-The resulting system can be viewed as:
-
-                ┌──────────────────────┐
-                │    React Frontend    │
-                │       Vite + React   │
-                └──────────┬───────────┘
-                           │
-                           │ HTTP / JSON
-                           ▼
-                ┌──────────────────────┐
-                │     FastAPI API      │
-                │                      │
-                │ /ask   /agent        │
-                │ /tasks /health       │
-                └───────┬───────┬──────┘
-                        │       │
-              ┌─────────┘       └────────────┐
-              ▼                              ▼
-       ┌───────────────┐              ┌───────────────┐
-       │ RAG Pipeline  │              │ Agent / Tools │
-       └───────┬───────┘              └───────┬───────┘
-               │                              │
-       ┌───────▼────────┐             ┌───────▼────────┐
-       │ FAISS Vector   │             │ Task Management│
-       │ Store          │             │ + Memory       │
-       └───────┬────────┘             └────────────────┘
-               │
-       ┌───────▼────────┐
-       │ HR Documents   │
-       │ + Embeddings   │
-       └───────┬────────┘
-               │
-               ▼
-       ┌────────────────┐
-       │ Groq LLM       │
-       └────────────────┘
-
-Objectives
-
-The project was developed to demonstrate practical AI engineering rather
-than a standalone model call.
-
-The main objectives are:
-
-Build a document-grounded HR question-answering system.
-
-Implement semantic retrieval with embeddings and FAISS.
-
-Connect retrieval results to an LLM for grounded generation.
-
-Provide an agent interface for natural-language requests.
-
-Add conversation memory for multi-turn interactions.
-
-Implement task creation and lifecycle management.
-
-Expose functionality through a FastAPI backend.
-
-Build a React frontend consuming the backend API.
-
-Validate the system through automated tests.
-
-Perform full local integration testing before deployment.
-
-Key Features
-
-1. HR Knowledge Retrieval
-
-Users can ask questions about internal HR information.
-
-Example:
-
-What is the company's leave policy?
-
-The system retrieves relevant information from the HR knowledge base
-before generating the answer.
-
-2. Retrieval-Augmented Generation
-
-The LLM is supplied with retrieved document context rather than being
-expected to answer solely from its pretrained knowledge.
-
-This improves relevance and makes the system suitable for
-organization-specific information.
-
-3. Agent
-
-The /agent endpoint provides a natural-language interface to the
-application's agent capabilities.
-
-4. Conversation Memory
-
-The /ask endpoint accepts an optional conversation_id.
-
-This allows multiple requests to be associated with the same
-conversation.
-
-5. Task Management
-
-The application supports:
-
-Creating tasks
-
-Listing tasks
-
-Retrieving a task
-
-Updating tasks
-
-Completing tasks
-
-Deleting tasks
-
-Task priorities
-
-Task statuses
-
-Optional due dates
-
-6. React Frontend
-
-The frontend provides a browser-based interface for interacting with the
-backend.
-
-The frontend API client supports a configurable backend URL through:
-
-VITE_API_BASE_URL
-
-7. Automated Testing
-
-The project includes backend tests covering the implemented application
-components.
-
-Current validation:
-
-54 passed
-0 failed
-1 warning
-
-System Architecture
-
-The application is divided into logical layers.
-
-┌─────────────────────────────────────────────┐
-│                  Frontend                   │
-│              React + Vite                   │
-└──────────────────────┬──────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────┐
-│                 API Layer                   │
-│                  FastAPI                    │
-├─────────────────────────────────────────────┤
-│ /ask     /agent     /tasks     /health      │
-└──────┬──────────────┬──────────────┬────────┘
-       │              │              │
-       ▼              ▼              ▼
-┌────────────┐  ┌────────────┐  ┌────────────┐
-│     QA     │  │   Agent    │  │   Tasks    │
-│   / RAG    │  │   Tools    │  │  Service   │
-└─────┬──────┘  └─────┬──────┘  └────────────┘
-      │               │
-      ▼               ▼
-┌────────────┐  ┌────────────┐
-│ Vectorstore│  │  Memory    │
-│   / FAISS  │  │ Repository │
-└─────┬──────┘  └────────────┘
-      │
-      ▼
-┌────────────┐
-│ HR Docs    │
-└────────────┘
-
-Request Flow
-
-HR Question
-
-A typical /ask request follows this flow:
-
-User
- ↓
-React UI
- ↓
-POST /ask
- ↓
+  │
+  │ POST /ask
+  ▼
 FastAPI
- ↓
-Question processing
- ↓
-Embedding / semantic retrieval
- ↓
-FAISS similarity search
- ↓
-Relevant HR document context
- ↓
-LLM prompt
- ↓
-Groq
- ↓
-Generated answer
- ↓
-Conversation memory update
- ↓
-JSON response
- ↓
+  │
+  ▼
+Question Processing
+  │
+  ▼
+Embedding Generation
+  │
+  ▼
+FAISS Similarity Search
+  │
+  ▼
+Relevant HR Document Chunks
+  │
+  ▼
+LLM Prompt Construction
+  │
+  ▼
+Groq LLM
+  │
+  ▼
+Generated Answer
+  │
+  ▼
+Conversation Memory
+  │
+  ▼
+JSON Response
+  │
+  ▼
 React UI
+```
 
-Agent Request
+## Agent Request
 
+```text
 User
- ↓
-React UI / API client
- ↓
-POST /agent
- ↓
+  │
+  ▼
+React Frontend
+  │
+  │ POST /agent
+  ▼
+FastAPI
+  │
+  ▼
 Agent
- ↓
-Available tools / application capabilities
- ↓
+  │
+  ▼
+Application Tools / Services
+  │
+  ▼
 Result
- ↓
-Response
+  │
+  ▼
+JSON Response
+```
 
-Task Request
+## Task Request
 
-React UI
- ↓
+```text
+React Frontend
+  │
+  ▼
 FastAPI
- ↓
-Task route
- ↓
-Task service
- ↓
-Task repository
- ↓
-Task response
+  │
+  ▼
+Task Routes
+  │
+  ▼
+Task Service
+  │
+  ▼
+Task Repository
+  │
+  ▼
+Task Response
+```
 
-Technology Stack
+---
 
-Backend
+# Technology Stack
 
-Technology              Purpose
+## Backend
 
-Python 3.11.9           Backend runtime
-FastAPI                 REST API
-Uvicorn                 ASGI server
-Pydantic                Data validation
-python-dotenv           Environment configuration
-FAISS CPU               Vector similarity search
-Sentence Transformers   Embeddings
-Transformers            Model infrastructure
-PyTorch                 ML runtime
-scikit-learn            ML utilities
-SciPy                   Scientific/ML dependencies
-PyPDF                   PDF processing
-Groq                    LLM inference
+| Technology            | Purpose                     |
+| --------------------- | --------------------------- |
+| Python 3.11           | Backend runtime             |
+| FastAPI               | REST API framework          |
+| Uvicorn               | ASGI server                 |
+| Pydantic              | Request/response validation |
+| python-dotenv         | Environment configuration   |
+| FAISS CPU             | Vector similarity search    |
+| Sentence Transformers | Text embeddings             |
+| Transformers          | ML/model infrastructure     |
+| PyTorch               | Machine learning runtime    |
+| scikit-learn          | ML utilities                |
+| SciPy                 | Scientific computing        |
+| PyPDF                 | PDF document processing     |
+| Groq                  | LLM inference               |
 
-Frontend
+## Frontend
 
-Technology   Purpose
+| Technology | Purpose                            |
+| ---------- | ---------------------------------- |
+| React 19   | User interface                     |
+| React DOM  | Browser rendering                  |
+| Vite       | Frontend development/build tooling |
+| JavaScript | Frontend implementation            |
 
-React 19     UI
-React DOM    Browser rendering
-Vite 8       Development/build tooling
-JavaScript   Frontend implementation
+## Testing
 
-Project Structure
+| Technology         | Purpose           |
+| ------------------ | ----------------- |
+| pytest             | Automated testing |
+| FastAPI TestClient | API testing       |
 
+---
+
+# Project Structure
+
+```text
 p7/
 │
 ├── app/
@@ -415,377 +332,278 @@ p7/
 ├── .python-version
 ├── requirements.txt
 └── README.md
+```
 
-HR Knowledge Base
+---
 
-The current repository includes:
+# Knowledge Base
 
+The current HR knowledge base is located at:
+
+```text
 backend/data/hr_documents/
+```
 
-with:
+Current documents include:
 
+```text
 benefits_policy.txt
 employee_handbook.txt
 it_setup_guide.txt
 security_policy.txt
+```
 
-These documents represent the controlled knowledge source for the HR
-assistant.
+These documents provide the organization-specific knowledge used by the RAG pipeline.
 
-The RAG system should use these documents as the authoritative context
-for organization-specific HR questions.
+The knowledge base can be extended by adding additional supported documents and running the application's ingestion/retrieval workflow.
 
-RAG Pipeline
+---
 
-The Retrieval-Augmented Generation architecture separates retrieval from
-generation.
+# RAG Pipeline
 
-Step 1 --- Source Documents
+The application follows a conventional Retrieval-Augmented Generation architecture.
 
-HR documents are stored in the repository.
+## 1. Document Loading
 
-HR documents
-    ↓
-Document loading
+HR source documents are loaded from the knowledge base.
 
-Step 2 --- Text Processing
-
-Documents are processed into searchable text units.
-
+```text
 Documents
     ↓
-Text extraction
+Document Loader
+```
+
+## 2. Text Processing
+
+Documents are processed into smaller searchable chunks.
+
+```text
+Raw Documents
     ↓
-Text splitting
+Text Extraction
     ↓
-Chunks
-
-Step 3 --- Embeddings
-
-Text chunks are converted into numerical vector representations.
-
-Text chunk
+Text Splitting
     ↓
-Embedding model
+Document Chunks
+```
+
+## 3. Embedding Generation
+
+Each chunk is transformed into a vector representation.
+
+```text
+Document Chunk
     ↓
-Vector
+Sentence Transformer
+    ↓
+Embedding Vector
+```
 
-Step 4 --- Vector Store
+## 4. Vector Indexing
 
-Embeddings are stored in FAISS.
+The embeddings are stored in FAISS.
 
-Embedding vectors
+```text
+Embedding Vectors
        ↓
      FAISS
+```
 
-Step 5 --- Retrieval
+## 5. Query Retrieval
 
-When the user asks a question:
+For an incoming question:
 
-Question
-   ↓
-Question embedding
-   ↓
-FAISS similarity search
-   ↓
-Top relevant chunks
+```text
+User Question
+      ↓
+Question Embedding
+      ↓
+FAISS Similarity Search
+      ↓
+Top Relevant Chunks
+```
 
-Step 6 --- Generation
+## 6. LLM Generation
 
-Retrieved context is supplied to the LLM.
+The retrieved context is combined with the user's question and sent to the LLM.
 
+```text
 Question
    +
-Retrieved context
+Retrieved Context
    ↓
-LLM
+Prompt
    ↓
-HR answer
+Groq LLM
+   ↓
+HR Answer
+```
 
-This architecture is preferable to asking the LLM to answer
-organization-specific questions without retrieval.
+This architecture keeps organization-specific information in the application's knowledge base rather than expecting the language model to already know internal company policies.
 
-Agent Layer
+---
 
-The agent provides a higher-level natural-language interface to
-application capabilities.
+# Conversation Memory
 
-Endpoint:
+The `/ask` endpoint supports an optional conversation identifier.
 
+Example:
+
+```json
+{
+  "question": "What is the leave policy?",
+  "conversation_id": "employee-demo"
+}
+```
+
+A follow-up request can reuse the same identifier:
+
+```json
+{
+  "question": "Can you summarize that?",
+  "conversation_id": "employee-demo"
+}
+```
+
+The memory architecture separates responsibilities into:
+
+```text
+Models
+  ↓
+Repository
+  ↓
+Service
+  ↓
+API
+```
+
+This separation makes the memory implementation easier to test and replace with a production database or external storage layer in the future.
+
+---
+
+# Agent
+
+The HR agent is exposed through:
+
+```text
 POST /agent
+```
 
 Request:
 
+```json
 {
-  "message": "..."
+  "message": "Help me with an HR request."
 }
+```
 
-The agent layer is separated from the HTTP layer so that application
-capabilities can be extended independently.
+The agent layer is separated from the API routing layer so application capabilities can evolve without tightly coupling business logic to HTTP handlers.
 
-Conversation Memory
+---
 
-Conversation memory is exposed through the /ask endpoint.
+# Task Management
 
-Request:
+The task system supports a complete task lifecycle.
 
-{
-  "question": "What does the leave policy say?",
-  "conversation_id": "demo-conversation"
-}
+## Task fields
 
-A subsequent request can reuse the same conversation identifier:
-
-{
-  "question": "Summarize that in one sentence.",
-  "conversation_id": "demo-conversation"
-}
-
-Conceptually:
-
-Conversation ID
-      ↓
-Memory lookup
-      ↓
-Previous context
-      +
-Current question
-      ↓
-Answer
-      ↓
-Updated memory
-
-The memory layer is separated into models, repository, and service
-responsibilities.
-
-Task Management
-
-The task system provides a REST-based task lifecycle.
-
-Task model
-
-Tasks support:
-
+```text
+id
 title
 description
 status
 priority
 due_date
 created_at
-id
+```
 
-Status values
+## Status
 
+```text
 todo
 in_progress
 completed
+```
 
-Priority values
+## Priority
 
+```text
 low
 medium
 high
+```
 
-Lifecycle
+## Lifecycle
 
-Create
-  ↓
-todo
-  ↓
-in_progress
-  ↓
-completed
+```text
+          ┌─────────────┐
+          │     todo    │
+          └──────┬──────┘
+                 │
+                 ▼
+        ┌────────────────┐
+        │   in_progress  │
+        └───────┬────────┘
+                │
+                ▼
+        ┌────────────────┐
+        │    completed   │
+        └────────────────┘
+```
 
-Tasks can also be updated or deleted.
+---
 
-FastAPI API
+# API Reference
 
-GET /health
+The backend exposes the following endpoints.
 
-Returns the API health status.
+| Method | Endpoint                    | Purpose                         |
+| ------ | --------------------------- | ------------------------------- |
+| GET    | `/health`                   | Health check                    |
+| POST   | `/ask`                      | RAG-based HR question answering |
+| POST   | `/agent`                    | Natural-language agent request  |
+| GET    | `/tasks`                    | List tasks                      |
+| POST   | `/tasks`                    | Create task                     |
+| GET    | `/tasks/{task_id}`          | Retrieve task                   |
+| PATCH  | `/tasks/{task_id}`          | Update task                     |
+| DELETE | `/tasks/{task_id}`          | Delete task                     |
+| POST   | `/tasks/{task_id}/complete` | Complete task                   |
 
-Example:
+Interactive API documentation is automatically generated by FastAPI.
 
-Invoke-WebRequest http://127.0.0.1:8000/health -UseBasicParsing
+```text
+/docs
+```
 
-Expected HTTP status:
+OpenAPI schema:
 
-200 OK
+```text
+/openapi.json
+```
 
-POST /ask
+---
 
-Answers an HR question using RAG and optional conversation memory.
+# API Examples
 
-Request:
+## Health Check
 
-{
-  "question": "What is the company's leave policy?",
-  "conversation_id": "optional-id"
-}
+```powershell
+Invoke-WebRequest `
+    http://127.0.0.1:8000/health `
+    -UseBasicParsing
+```
 
-POST /agent
+Expected:
 
-Processes a natural-language request through the HR agent.
+```text
+HTTP 200 OK
+```
 
-Request:
+---
 
-{
-  "message": "Help me with an HR request."
-}
+## Ask an HR Question
 
-GET /tasks
-
-Returns available tasks.
-
-POST /tasks
-
-Creates a task.
-
-Example:
-
-{
-  "title": "Review employee handbook",
-  "description": "Review the latest HR policy document.",
-  "priority": "high"
-}
-
-GET /tasks/{task_id}
-
-Retrieves a specific task.
-
-PATCH /tasks/{task_id}
-
-Updates a task.
-
-Example:
-
-{
-  "status": "in_progress"
-}
-
-DELETE /tasks/{task_id}
-
-Deletes a task.
-
-POST /tasks/{task_id}/complete
-
-Marks a task as completed.
-
-React Frontend
-
-The frontend is implemented with React and Vite.
-
-The frontend communicates with the FastAPI backend through:
-
-frontend/src/services/api.js
-
-The API base URL is configurable:
-
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
-
-This provides two modes:
-
-Local development
-
-VITE_API_BASE_URL not set
-        ↓
-http://127.0.0.1:8000
-
-Deployment
-
-VITE_API_BASE_URL=https://your-backend-domain
-
-This prevents the deployed browser from attempting to access its own
-localhost.
-
-Environment Configuration
-
-The project requires a Groq API key.
-
-.env.example:
-
-GROQ_API_KEY=your_groq_api_key_here
-
-For local development, create:
-
-.env
-
-with:
-
-GROQ_API_KEY=your_real_key
-
-Do not commit the real .env file.
-
-The frontend must never contain the Groq API key.
-
-Local Installation
-
-1. Clone
-
-git clone https://github.com/THOTALINGESWARARAO/supervity-p7.git
-cd supervity-p7
-
-2. Create virtual environment
-
-python -m venv .venv
-
-Activate:
-
-.\.venv\Scripts\Activate.ps1
-
-3. Install dependencies
-
-pip install -r requirements.txt
-
-4. Configure environment
-
-Create .env:
-
-GROQ_API_KEY=your_groq_api_key_here
-
-5. Install frontend dependencies
-
-cd frontend
-npm install
-cd ..
-
-Running the Application
-
-Backend
-
-From the project root:
-
-.\.venv\Scripts\Activate.ps1
-uvicorn backend.main:app --reload
-
-Backend:
-
-http://127.0.0.1:8000
-
-Swagger UI:
-
-http://127.0.0.1:8000/docs
-
-OpenAPI JSON:
-
-http://127.0.0.1:8000/openapi.json
-
-Frontend
-
-In another terminal:
-
-cd frontend
-npm run dev
-
-Use the URL printed by Vite.
-
-API Examples
-
-Ask an HR question
-
-PowerShell:
-
+```powershell
 $body = @{
     question = "What is the company's leave policy?"
 } | ConvertTo-Json
@@ -795,9 +613,13 @@ Invoke-RestMethod `
     -Method Post `
     -ContentType "application/json" `
     -Body $body
+```
 
-Ask with conversation memory
+---
 
+## Ask with Conversation Memory
+
+```powershell
 $body = @{
     question = "What does the leave policy say?"
     conversation_id = "demo-conversation"
@@ -808,11 +630,13 @@ Invoke-RestMethod `
     -Method Post `
     -ContentType "application/json" `
     -Body $body
+```
 
 Follow-up:
 
+```powershell
 $body = @{
-    question = "Can you summarize that?"
+    question = "Summarize that in one sentence."
     conversation_id = "demo-conversation"
 } | ConvertTo-Json
 
@@ -821,12 +645,32 @@ Invoke-RestMethod `
     -Method Post `
     -ContentType "application/json" `
     -Body $body
+```
 
-Create a task
+---
 
+## Agent Request
+
+```powershell
 $body = @{
-    title = "Review HR handbook"
-    description = "Review the current employee handbook."
+    message = "Help me with an HR request."
+} | ConvertTo-Json
+
+Invoke-RestMethod `
+    -Uri http://127.0.0.1:8000/agent `
+    -Method Post `
+    -ContentType "application/json" `
+    -Body $body
+```
+
+---
+
+## Create a Task
+
+```powershell
+$body = @{
+    title = "Review employee handbook"
+    description = "Review the latest HR policy documentation."
     priority = "high"
 } | ConvertTo-Json
 
@@ -835,539 +679,1022 @@ Invoke-RestMethod `
     -Method Post `
     -ContentType "application/json" `
     -Body $body
+```
 
-List tasks
+---
 
-Invoke-RestMethod http://127.0.0.1:8000/tasks
+## List Tasks
 
-Testing and Validation
+```powershell
+Invoke-RestMethod `
+    http://127.0.0.1:8000/tasks
+```
 
-Run:
+---
 
-pytest -q
+# Frontend
 
-Current result:
+The frontend is implemented using React and Vite.
 
-54 passed
-1 warning
+Source:
 
-There are currently no failing tests.
+```text
+frontend/
+```
 
-The warning observed during testing is:
+The frontend communicates with the backend through:
 
-StarletteDeprecationWarning:
-Using `httpx` with `starlette.testclient` is deprecated;
-install `httpx2` instead.
+```text
+frontend/src/services/api.js
+```
 
-This warning does not currently affect the test result.
+The API base URL is environment-aware.
 
-Frontend Production Build
+Conceptually:
 
-The frontend was validated with:
+```javascript
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
+```
 
+This allows the same frontend codebase to work in both local and production environments.
+
+## Local
+
+```text
+VITE_API_BASE_URL
+      ↓
+http://127.0.0.1:8000
+```
+
+## Production
+
+```text
+VITE_API_BASE_URL
+      ↓
+https://your-production-backend
+```
+
+The frontend must never contain the Groq API key.
+
+---
+
+# Environment Configuration
+
+## Backend
+
+Create a local `.env` file:
+
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+The repository contains:
+
+```text
+.env.example
+```
+
+as the environment template.
+
+## Frontend
+
+For a deployed frontend:
+
+```env
+VITE_API_BASE_URL=https://your-backend-domain
+```
+
+For local development, the application falls back to:
+
+```text
+http://127.0.0.1:8000
+```
+
+---
+
+# Environment Variable Reference
+
+| Variable            |   Required | Component | Description             |
+| ------------------- | ---------: | --------- | ----------------------- |
+| `GROQ_API_KEY`      |        Yes | Backend   | Groq API authentication |
+| `VITE_API_BASE_URL` | Production | Frontend  | Public backend API URL  |
+
+---
+
+# Installation
+
+## Prerequisites
+
+Recommended versions:
+
+```text
+Python 3.11.x
+Node.js
+npm
+Git
+```
+
+The project currently pins Python through:
+
+```text
+.python-version
+```
+
+Current development environment:
+
+```text
+Python 3.11.9
+```
+
+---
+
+## Clone Repository
+
+```powershell
+git clone https://github.com/THOTALINGESWARARAO/supervity-p7.git
+cd supervity-p7
+```
+
+---
+
+## Create Python Virtual Environment
+
+```powershell
+python -m venv .venv
+```
+
+Activate it:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+If PowerShell blocks script execution:
+
+```powershell
+Set-ExecutionPolicy `
+    -Scope Process `
+    -ExecutionPolicy RemoteSigned
+```
+
+Then activate:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+---
+
+## Install Backend Dependencies
+
+```powershell
+pip install -r requirements.txt
+```
+
+---
+
+## Configure Backend
+
+Create:
+
+```text
+.env
+```
+
+Add:
+
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+Do not commit the real `.env` file.
+
+---
+
+## Install Frontend Dependencies
+
+```powershell
+cd frontend
+npm install
+cd ..
+```
+
+---
+
+# Running Locally
+
+The application requires two processes.
+
+## Terminal 1 — Backend
+
+```powershell
+cd C:\supervity\p7
+
+.\.venv\Scripts\Activate.ps1
+
+uvicorn backend.main:app --reload
+```
+
+Backend:
+
+```text
+http://127.0.0.1:8000
+```
+
+Swagger:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+OpenAPI:
+
+```text
+http://127.0.0.1:8000/openapi.json
+```
+
+---
+
+## Terminal 2 — Frontend
+
+```powershell
+cd C:\supervity\p7\frontend
+
+npm run dev
+```
+
+Vite will print the local frontend URL in the terminal.
+
+---
+
+# Production Frontend Build
+
+Build the frontend with:
+
+```powershell
 cd frontend
 npm run build
+```
 
-The production build completed successfully.
+Expected output:
 
-Typical generated output:
-
+```text
 dist/
 ├── index.html
 └── assets/
+```
 
-The generated dist directory is a build artifact and is not required
-to be committed when the deployment platform builds the frontend itself.
+The production build was successfully validated during integration testing.
 
-Task 10 Full Integration
+---
 
-Task 10 focused on validating that the previously implemented components
-work together rather than only passing isolated unit tests.
+# Testing
 
-Integration chain
+Run the complete backend test suite:
 
-Frontend
-   ↓
-FastAPI
-   ↓
-Question / Agent / Task API
-   ↓
-Application services
-   ↓
-RAG / Memory / Tasks
-   ↓
-External LLM where applicable
-   ↓
-Response
-   ↓
-Frontend
+```powershell
+pytest -q
+```
 
-Validation performed
+Current validation result:
 
-Automated backend suite
-
+```text
 54 passed
+1 warning
+0 failed
+```
 
-Backend startup
+The test suite completed successfully.
 
-Application startup complete.
+The current warning is related to a Starlette/httpx deprecation notice and does not cause test failures.
 
-Health endpoint
+---
 
-GET /health
-→ 200 OK
+# Integration Validation
 
-OpenAPI
+The complete application was tested locally across the major layers.
 
-The live backend exposed the expected application routes:
+## Backend
 
-/tasks
-/tasks/{task_id}
-/tasks/{task_id}/complete
-/agent
-/health
-/ask
+```text
+FastAPI startup       ✅
+Health endpoint       ✅
+OpenAPI generation    ✅
+RAG endpoint          ✅
+Agent endpoint        ✅
+Task API              ✅
+Memory integration    ✅
+```
 
-RAG endpoint
+## Frontend
 
-A live request to:
+```text
+React application     ✅
+API client            ✅
+Vite build             ✅
+Production build       ✅
+```
 
-POST /ask
+## Automated Tests
 
-successfully returned an HR answer based on the application's knowledge
-base.
+```text
+54 passed
+0 failed
+```
 
-Frontend build
+---
 
-npm run build
-→ successful
+# Full Integration Architecture
 
-This establishes that the application was successfully integrated and
-validated locally before deployment.
+Task 10 brought the individual application components together:
 
-Deployment Status
+```text
+                    ┌───────────────┐
+                    │ React Client  │
+                    └───────┬───────┘
+                            │
+                            ▼
+                    ┌───────────────┐
+                    │    FastAPI    │
+                    └───────┬───────┘
+                            │
+          ┌─────────────────┼─────────────────┐
+          │                 │                 │
+          ▼                 ▼                 ▼
+      ┌────────┐       ┌─────────┐       ┌────────┐
+      │  RAG   │       │  Agent  │       │ Tasks  │
+      └────┬───┘       └────┬────┘       └───┬────┘
+           │                │                │
+           ▼                ▼                ▼
+      ┌─────────┐      ┌──────────┐     ┌──────────┐
+      │ FAISS   │      │  Tools   │     │Repository│
+      └────┬────┘      └──────────┘     └──────────┘
+           │
+           ▼
+      ┌───────────┐
+      │ HR Docs   │
+      └─────┬─────┘
+            │
+            ▼
+       ┌──────────┐
+       │ Groq LLM │
+       └──────────┘
+```
 
-A Render deployment was attempted for the FastAPI backend.
+---
 
-Build result
+# Deployment
 
-The Render build completed successfully.
+## Current Status
 
-Build successful
+Production deployment is **not currently active**.
 
-Runtime result
+A deployment to Render was attempted and the application successfully completed the build stage.
 
-The service could not remain running on the Render Free instance because
-the application exceeded the available 512 MB memory limit while
-starting the AI/model stack.
+However, the runtime environment exceeded the available memory.
 
-Observed runtime error:
+Observed Render runtime failure:
 
+```text
 Out of memory (used over 512Mi)
+```
 
-The deployment was intentionally stopped rather than misrepresenting the
-application as successfully deployed.
+The application therefore remains a locally validated application rather than being represented as successfully deployed.
 
-Important distinction
+---
 
-This is an infrastructure/resource limitation, not a failing application
-test.
+# Deployment Failure Analysis
 
-Local result:
+The issue occurs during runtime initialization rather than application compilation.
 
-54/54 tests passing
+The current backend dependency stack includes memory-intensive ML libraries:
 
-Local runtime:
-
-FastAPI startup successful
-Model loading successful
-/health successful
-/ask successful
-
-Deployment runtime:
-
-Render Free instance
-       ↓
-512 MB memory
-       ↓
-PyTorch + Transformers + Sentence Transformers + FAISS
-       ↓
-Out of memory
-
-Deployment Considerations
-
-The current architecture loads ML dependencies and model components in
-the backend process.
-
-The dependency stack includes:
-
+```text
 torch
 transformers
 sentence-transformers
 faiss-cpu
 scikit-learn
 scipy
+```
 
-This is significantly heavier than a conventional lightweight FastAPI
-application.
+The application also loads model components during startup.
 
-A future production deployment should use an environment with sufficient
-memory.
+The selected Render environment provides approximately:
 
-Potential approaches include:
+```text
+512 MB RAM
+```
 
-Option 1 --- Larger backend instance
+The model/runtime stack requires more memory than that environment can provide.
 
-Use a deployment instance with enough RAM for model initialization and
-runtime.
+Therefore:
 
-Option 2 --- Separate inference service
+```text
+Application
+    │
+    ▼
+Render Build
+    │
+    ├── Build successful
+    │
+    ▼
+Runtime Startup
+    │
+    ▼
+ML Model Initialization
+    │
+    ▼
+Memory > 512 MB
+    │
+    ▼
+OOM
+```
 
-Move embedding/model inference into a dedicated service.
+This is an infrastructure capacity limitation rather than a failing application test.
 
+---
+
+# Production Deployment Options
+
+A production deployment should use one of the following strategies.
+
+## Option 1 — Larger Runtime
+
+Deploy the backend on an environment with sufficient memory for:
+
+* Python runtime
+* FastAPI/Uvicorn
+* PyTorch
+* Transformers
+* Sentence Transformers
+* FAISS
+* Application code
+* Model weights
+
+---
+
+## Option 2 — Dedicated Inference Service
+
+Separate model inference from the API server.
+
+```text
 Frontend
-   ↓
+    │
+    ▼
 FastAPI
-   ↓
+    │
+    ▼
 Inference Service
-   ↓
-Embedding / Model
+    │
+    ▼
+Embedding / LLM Model
+```
 
-Option 3 --- External embedding/inference API
+This allows API and inference workloads to scale independently.
 
-Use a managed embedding/inference provider instead of loading the full
-model stack inside the web service.
+---
 
-Option 4 --- Optimize the model stack
+## Option 3 — Managed Embeddings
 
-Reduce memory usage through:
+Move embedding generation to an external inference API.
 
-Smaller embedding models
+```text
+FastAPI
+   │
+   ▼
+Embedding API
+   │
+   ▼
+Vector Database
+```
 
-Lazy model loading
+This can significantly reduce backend memory requirements.
 
-More efficient model formats
+---
 
-Reduced worker count
+## Option 4 — Model Optimization
 
-Avoiding duplicate model instances
+Potential optimizations include:
 
-These are future infrastructure improvements and are not required to
-establish the correctness of the current local implementation.
+* Smaller embedding models
+* Lazy model initialization
+* Reduced worker count
+* Quantized models
+* More memory-efficient inference
+* Externalized model serving
 
-Production Environment
+---
 
-For a backend deployment, the server should bind to the
-platform-provided port.
+# Production Deployment Checklist
 
-Example:
+Before production deployment:
 
-uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+* [ ] Use a runtime with sufficient RAM
+* [ ] Configure `GROQ_API_KEY`
+* [ ] Configure `VITE_API_BASE_URL`
+* [ ] Verify CORS configuration
+* [ ] Use HTTPS
+* [ ] Add application logging
+* [ ] Add monitoring
+* [ ] Add request rate limiting
+* [ ] Add authentication/authorization if required
+* [ ] Replace local/in-memory persistence with production storage where required
+* [ ] Configure health checks
+* [ ] Configure graceful shutdown
+* [ ] Validate model startup memory
+* [ ] Run the full test suite
+* [ ] Run the frontend production build
+* [ ] Perform an end-to-end production smoke test
 
-Required backend environment variable:
+---
 
-GROQ_API_KEY=...
+# Security
 
-For the frontend:
-
-VITE_API_BASE_URL=https://your-backend-domain
-
-The frontend build should then be:
-
-npm run build
-
-Security
-
-API keys
+## API Keys
 
 Never commit:
 
+```text
 .env
+```
 
-Never place:
+Never expose:
 
+```text
 GROQ_API_KEY
+```
 
-inside React source code.
+to the React frontend.
 
-The browser must communicate only with the backend API.
+The API key must remain server-side.
 
-Environment separation
+---
+
+## Environment Variables
 
 Development:
 
+```text
 .env
+```
 
-Deployment:
+Production:
 
-Platform environment variables
+```text
+Platform secret/environment-variable manager
+```
 
 Template:
 
+```text
 .env.example
+```
 
-Troubleshooting
+---
 
-Backend does not start
+## Frontend Security
 
-Check:
+The frontend should only receive the backend API URL.
 
-python --version
+It must never receive provider credentials such as:
 
-Expected:
-
-Python 3.11.x
-
-Install dependencies again:
-
-pip install -r requirements.txt
-
-Groq API errors
-
-Verify:
-
+```text
 GROQ_API_KEY
+```
 
-is present in the environment.
+The browser communicates with FastAPI, and FastAPI communicates with the LLM provider.
 
-Do not expose the key in source code or frontend files.
+---
 
-Frontend cannot reach backend
+# API Design
 
-Check:
+The backend follows a layered architecture:
 
-VITE_API_BASE_URL
+```text
+HTTP Route
+    ↓
+Service
+    ↓
+Repository / Domain Logic
+    ↓
+External System / Storage / Model
+```
 
-For local development, the fallback is:
+This separation provides:
 
-http://127.0.0.1:8000
+* Better testability
+* Easier maintenance
+* Lower coupling
+* Easier replacement of infrastructure
+* Clear ownership of responsibilities
 
-For deployment, it must point to the public backend URL.
+---
 
-Render deployment runs out of memory
+# Error Handling
 
-If the deployment reports:
+FastAPI/Pydantic validation handles malformed request bodies.
 
-Out of memory (used over 512Mi)
+For example, `/ask` requires:
 
-the instance does not have sufficient RAM for the current ML stack.
+```json
+{
+  "question": "..."
+}
+```
 
-This is not fixed by changing the FastAPI port or adding HF_TOKEN.
+The API automatically exposes validation errors for invalid request structures.
 
-Use a larger instance or redesign the model/inference layer.
+The frontend API client also checks HTTP response status codes and attempts to surface backend error details.
 
-Hugging Face unauthenticated warning
+---
 
-A local/deployment startup warning may indicate that requests to the
-Hugging Face Hub are unauthenticated.
+# Observability Considerations
 
-This can affect download rate limits.
+For a production environment, the next operational layer should include:
 
-It is separate from the Render 512 MB out-of-memory failure.
+```text
+Application Logs
+       +
+Health Checks
+       +
+Metrics
+       +
+Error Tracking
+       +
+Latency Monitoring
+       +
+LLM Usage Monitoring
+```
 
-Development Workflow
+Important production metrics include:
+
+* Request count
+* Request latency
+* Error rate
+* Retrieval latency
+* LLM latency
+* Token usage
+* Model initialization time
+* Memory consumption
+* CPU utilization
+* Vector search latency
+
+---
+
+# Development Workflow
 
 Recommended workflow:
 
-1. Activate .venv
-2. Start backend
-3. Start frontend
-4. Implement changes
-5. Run pytest
-6. Run frontend build
-7. Test the affected API
-8. Inspect git status
-9. Commit
-10. Push
+```text
+1. Create/activate virtual environment
+2. Configure environment variables
+3. Start backend
+4. Start frontend
+5. Implement changes
+6. Run tests
+7. Build frontend
+8. Test affected API endpoints
+9. Inspect git status
+10. Commit changes
+11. Push changes
+```
 
-Backend test:
+Run backend tests:
 
+```powershell
 pytest -q
+```
 
-Frontend build:
+Build frontend:
 
+```powershell
 cd frontend
 npm run build
 cd ..
+```
 
-Git verification:
+Check repository:
 
+```powershell
 git status
+```
+
+Check latest commit:
+
+```powershell
 git log -1 --oneline
+```
 
-A clean repository should report:
+---
 
-nothing to commit, working tree clean
+# Git Status
 
-Project Status
+The deployment-preparation changes were committed and pushed.
 
-Component                        Status
+Latest relevant commit:
 
-Backend foundation               Complete
-HR document ingestion            Complete
-Vector retrieval                 Complete
-RAG question answering           Complete
-Agent                            Complete
-Task management                  Complete
-Conversation memory              Complete
-FastAPI integration              Complete
-React frontend                   Complete
-Frontend API integration         Complete
-Automated tests                  54/54 passing
-Local end-to-end validation      Complete
-Frontend production build        Passing
-Production backend deployment    Pending
-Production frontend deployment   Pending
-Infrastructure optimization      Pending
+```text
+d6e2076 chore: prepare application for deployment
+```
 
-Milestone Summary
+The repository was clean after the push.
 
-Tasks 1--5
+---
 
-Core application foundation and knowledge-assistant functionality
-established.
+# Project Milestones
 
-Task 6 --- Task Management
+| Milestone                   | Status   |
+| --------------------------- | -------- |
+| Backend foundation          | Complete |
+| HR document ingestion       | Complete |
+| Semantic retrieval          | Complete |
+| Vector store                | Complete |
+| RAG question answering      | Complete |
+| Agent                       | Complete |
+| Task management             | Complete |
+| Conversation memory         | Complete |
+| FastAPI integration         | Complete |
+| React frontend              | Complete |
+| Frontend API integration    | Complete |
+| Automated testing           | Complete |
+| Full integration            | Complete |
+| Frontend production build   | Complete |
+| Production deployment       | Pending  |
+| Infrastructure optimization | Pending  |
 
-Implemented:
+---
 
-Task models
+# Task 10 — Full Integration
 
-Repository
+Task 10 represents the final application integration stage.
 
-Service
+The following components were brought together:
 
-Routes
-
-Task lifecycle
-
-Tests
-
-Task 7 --- Agent Tools
-
-Implemented and validated the agent/tool layer.
-
-Task 8 --- Conversation Memory
-
-Implemented:
-
-Memory models
-
-Repository
-
-Service
-
-Conversation-aware API behavior
-
-Tests
-
-Task 9 --- React Frontend
-
-Implemented:
-
-React application
-
-Vite build
-
-API client
-
-HR interaction UI
-
-Task interaction UI
-
-Production build
-
-Task 10 --- Full Integration
-
-Validated:
-
-Backend
-+
+```text
 RAG
 +
 Agent
 +
-Memory
+Conversation Memory
 +
-Tasks
+Task Management
 +
-Frontend
+FastAPI
++
+React
+```
 
-with:
+Validation:
 
-54 tests passing
+```text
+54 tests passed
+Frontend production build passed
+Backend startup passed
+Health endpoint passed
+OpenAPI generation passed
+RAG endpoint passed
+```
 
-Current Git State
+---
 
-The deployment-preparation commit was created and pushed successfully.
+# Current Project Status
 
-Latest deployment-preparation commit:
+```text
+┌──────────────────────────────────────────┐
+│            P7 PROJECT STATUS             │
+├──────────────────────────────────────────┤
+│ Backend                         COMPLETE │
+│ RAG                             COMPLETE │
+│ Vector Retrieval                COMPLETE │
+│ Agent                           COMPLETE │
+│ Conversation Memory             COMPLETE │
+│ Task Management                 COMPLETE │
+│ FastAPI API                     COMPLETE │
+│ React Frontend                  COMPLETE │
+│ Frontend Build                  PASSING  │
+│ Automated Tests                 54/54    │
+│ Local Integration               PASSING  │
+│ Production Deployment           PENDING  │
+│ Deployment Infrastructure       PENDING  │
+└──────────────────────────────────────────┘
+```
 
-d6e2076 chore: prepare application for deployment
+---
 
-The commit includes:
+# Known Limitations
 
-Environment-driven frontend API configuration
+The current version is production-ready from an application-architecture perspective but still requires infrastructure hardening before public production use.
 
-Python 3.11.9 deployment pin
+Known considerations:
 
-The repository was clean after the push.
+1. The current ML stack is memory-intensive.
+2. The tested Render Free environment is insufficient for the current runtime.
+3. Production persistence should use an appropriate durable database/storage layer where required.
+4. Authentication/authorization should be added before exposing internal HR functionality publicly.
+5. Production observability should be configured.
+6. API rate limiting should be considered.
+7. CORS should be restricted to trusted frontend origins.
+8. Model and dependency updates should be tested before upgrading.
 
-Repository
+---
 
-GitHub:
+# Future Improvements
 
+Potential next-stage improvements include:
+
+### Infrastructure
+
+* Dedicated inference service
+* Larger production runtime
+* Containerization
+* Horizontal scaling
+* Load balancing
+
+### Data
+
+* Production database
+* Persistent conversation storage
+* Persistent task storage
+* Document versioning
+* Metadata filtering
+
+### AI
+
+* Improved retrieval ranking
+* Hybrid keyword + vector retrieval
+* Reranking
+* Citation-aware responses
+* Evaluation datasets
+* Retrieval quality metrics
+* LLM response evaluation
+* Prompt versioning
+
+### Security
+
+* Authentication
+* Role-based authorization
+* Organization/user isolation
+* Audit logging
+* Secret management
+* Request rate limiting
+
+### Operations
+
+* Structured logging
+* Metrics
+* Tracing
+* Error tracking
+* Automated deployment
+* CI/CD
+* Health monitoring
+
+---
+
+# Quality Gates
+
+Before considering a future production release, the following should pass:
+
+```text
+pytest                         PASS
+Frontend lint                  PASS
+Frontend production build     PASS
+Backend startup                PASS
+Health check                   PASS
+RAG smoke test                 PASS
+Agent smoke test               PASS
+Task CRUD smoke test           PASS
+Memory smoke test              PASS
+Production configuration       PASS
+Security review                 PASS
+Infrastructure memory test      PASS
+```
+
+---
+
+# Local Verification
+
+The final local verification performed for this project included:
+
+### Backend test suite
+
+```text
+54 passed
+```
+
+### Backend health
+
+```text
+GET /health
+→ 200 OK
+```
+
+### OpenAPI
+
+The API exposed:
+
+```text
+/tasks
+/tasks/{task_id}
+/tasks/{task_id}/complete
+/agent
+/health
+/ask
+```
+
+### Frontend build
+
+```text
+npm run build
+→ successful
+```
+
+### Repository
+
+```text
+working tree clean
+```
+
+---
+
+# Repository
+
+GitHub repository:
+
+```text
 https://github.com/THOTALINGESWARARAO/supervity-p7
+```
 
-Conclusion
+---
 
-P7 demonstrates a complete AI application engineering workflow:
+# License
 
-                 ┌───────────────────┐
-                 │   HR Documents    │
-                 └─────────┬─────────┘
+No open-source license has currently been declared for this repository.
+
+If this project is intended for public redistribution, add an appropriate license such as MIT, Apache-2.0, or another license matching the intended usage.
+
+---
+
+# Conclusion
+
+P7 demonstrates the implementation of a complete AI application rather than a standalone LLM integration.
+
+The final system combines:
+
+```text
+                    ┌──────────────┐
+                    │ HR Documents │
+                    └──────┬───────┘
                            │
                            ▼
-                 ┌───────────────────┐
-                 │ Ingestion +       │
-                 │ Embeddings        │
-                 └─────────┬─────────┘
+                    ┌──────────────┐
+                    │  Ingestion   │
+                    └──────┬───────┘
                            │
                            ▼
-                 ┌───────────────────┐
-                 │ FAISS Vector      │
-                 │ Store             │
-                 └─────────┬─────────┘
+                    ┌──────────────┐
+                    │  Embeddings  │
+                    └──────┬───────┘
                            │
                            ▼
-┌──────────────┐   ┌───────────────────┐
-│ React        │──▶│ FastAPI           │
-│ Frontend     │   │ Application       │
-└──────────────┘   └─────────┬─────────┘
-                             │
-              ┌──────────────┼──────────────┐
-              ▼              ▼              ▼
-           RAG / QA        Agent         Tasks
-              │              │              │
-              └──────────────┼──────────────┘
-                             ▼
-                      Conversation
-                         Memory
-                             │
-                             ▼
-                         Groq LLM
+                    ┌──────────────┐
+                    │    FAISS     │
+                    └──────┬───────┘
+                           │
+                           ▼
+┌──────────────┐    ┌──────────────┐
+│    React     │───▶│   FastAPI    │
+│   Frontend   │    │     API      │
+└──────────────┘    └──────┬───────┘
+                           │
+              ┌────────────┼────────────┐
+              │            │            │
+              ▼            ▼            ▼
+            RAG          Agent        Tasks
+              │            │            │
+              └────────────┼────────────┘
+                           │
+                           ▼
+                  Conversation Memory
+                           │
+                           ▼
+                       Groq LLM
+```
 
-The application is locally integrated and validated. The remaining
-deployment limitation is infrastructure capacity: the selected Render
-Free instance cannot provide enough memory for the current local AI
-model stack.
+The application has successfully reached the following engineering state:
 
-The project therefore reaches a clean engineering checkpoint:
-
-Implementation        ✅
-Integration           ✅
-Automated testing     ✅
-Local runtime         ✅
-Frontend build        ✅
-Deployment attempt    ✅
-Production deployment ⚠️ Infrastructure-limited
+```text
+Implementation              ✅
+Architecture                ✅
+RAG                         ✅
+Agent                       ✅
+Conversation Memory         ✅
+Task Management             ✅
+FastAPI                     ✅
+React Frontend              ✅
+Automated Tests             ✅ 54/54
+Local Integration           ✅
+Frontend Production Build   ✅
+Production Deployment       ⚠️ Infrastructure-limited
+```
