@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
+from backend.agent.routes import router as agent_router
 from backend.qa.answer import answer_question
 from backend.tasks.routes import router as task_router
 
@@ -12,6 +13,7 @@ app = FastAPI(
 )
 
 app.include_router(task_router)
+app.include_router(agent_router)
 
 
 class QuestionRequest(BaseModel):

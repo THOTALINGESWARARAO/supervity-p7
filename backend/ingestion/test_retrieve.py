@@ -1,5 +1,4 @@
-from ingestion.retrieve import search
-
+from backend.ingestion.retrieve import search
 
 queries = [
     "How many days do I have to enroll in health insurance?",

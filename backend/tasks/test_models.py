@@ -1,4 +1,4 @@
-from tasks.models import (
+from backend.tasks.models import (
     Task,
     TaskCreate,
     TaskPriority,
@@ -13,6 +13,7 @@ def test_create_task_model():
         description="Submit required documents",
         priority=TaskPriority.HIGH,
     )
+
 
     task = Task(**request.model_dump())
 
